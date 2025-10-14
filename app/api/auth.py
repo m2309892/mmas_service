@@ -1,0 +1,18 @@
+from fastapi import APIRouter
+
+router = APIRouter()
+
+@router.post("/login")
+async def login():
+    """Авторизация пользователя"""
+    return {"message": "Login endpoint - to be implemented"}
+
+@router.post("/register")
+async def register():
+    """Регистрация пользователя"""
+    return {"message": "Register endpoint - to be implemented"}
+
+@router.post("/refresh")
+async def refresh_token():
+    """Обновление токена"""
+    return {"message": "Refresh token endpoint - to be implemented"}
