@@ -19,6 +19,5 @@ class Aboniment(Base):
     hours: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
     end_date: Mapped[Optional[date]] = mapped_column(Date, nullable=True)
 
-    # Связи
     student: Mapped[Optional["Student"]] = relationship("Student", back_populates="aboniments")
     studio: Mapped["Studio"] = relationship("Studio", back_populates="aboniments")

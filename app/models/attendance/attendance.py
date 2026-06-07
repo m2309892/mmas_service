@@ -1,11 +1,11 @@
-from sqlalchemy import ForeignKey, Integer, String, DateTime, DECIMAL, Enum
+from sqlalchemy import ForeignKey, Integer, Time, DateTime
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from datetime import datetime, time
 from decimal import Decimal
 from typing import TYPE_CHECKING
 import enum
 
-from app.core.database import Base
+from app.core.database import Base, pg_enum
 
 if TYPE_CHECKING:
     from app.models.students.student import Student
@@ -26,13 +26,13 @@ class Attendance(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     student_id: Mapped[int] = mapped_column(Integer, ForeignKey("students.id"), nullable=False)
-    hours: Mapped[time] = mapped_column(DateTime, nullable=False)  # Время посещения
+    hours: Mapped[time] = mapped_column(Time, nullable=False)
     train_date: Mapped[datetime] = mapped_column(DateTime, nullable=False)
-    paid_by: Mapped[PaidBy] = mapped_column(Enum(PaidBy), nullable=False)
+    paid_by: Mapped[PaidBy] = mapped_column(pg_enum(PaidBy, "paidby"), nullable=False)
     event_id: Mapped[int] = mapped_column(Integer, ForeignKey("events.id"), nullable=False)
     studio_id: Mapped[int] = mapped_column(Integer, ForeignKey("studios.id"), nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now)
 
-    # Связи
     student: Mapped["Student"] = relationship("Student", back_populates="attendance")
     event: Mapped["Event"] = relationship("Event", back_populates="attendance")
     studio: Mapped["Studio"] = relationship("Studio", back_populates="attendance")

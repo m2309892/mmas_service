@@ -10,6 +10,7 @@ if TYPE_CHECKING:
     from app.models.attendance.event import Event
     from app.models.billing.aboniment import Aboniment
     from app.models.attendance.attendance import Attendance
+    from app.models.accounts.staff_user import StaffUser
 
 
 class Studio(Base):
@@ -17,14 +18,18 @@ class Studio(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String(255), nullable=False)
-    short_name: Mapped[str] = mapped_column(String(255), nullable=False)
+    short_name: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
     students_cnt: Mapped[int] = mapped_column(Integer, default=0)
 
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now)
     updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now)
 
-    # Связи
     students: Mapped[List["Student"]] = relationship("Student", back_populates="studio")
     events: Mapped[List["Event"]] = relationship("Event", back_populates="studio")
     aboniments: Mapped[List["Aboniment"]] = relationship("Aboniment", back_populates="studio")
     attendance: Mapped[List["Attendance"]] = relationship("Attendance", back_populates="studio")
+    staff_users: Mapped[List["StaffUser"]] = relationship(
+        "StaffUser",
+        secondary="staff_user_studios",
+        back_populates="studios",
+    )

@@ -13,5 +13,4 @@ class TgUser(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     tg_id: Mapped[int] = mapped_column(Integer, unique=True, nullable=False)
 
-    # Связи
     app_accounts: Mapped[List["AppAccount"]] = relationship("AppAccount", back_populates="tg_user")

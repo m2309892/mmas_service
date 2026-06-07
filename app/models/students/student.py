@@ -26,15 +26,11 @@ class Student(Base):
     balance: Mapped[Decimal] = mapped_column(DECIMAL(10, 2), default=0)
     mmas_id: Mapped[str] = mapped_column(String(255), unique=True, nullable=False)
 
-    # Внешние ключи
     studio_id: Mapped[int] = mapped_column(Integer, ForeignKey("studios.id"), nullable=False)
     belt_id: Mapped[int] = mapped_column(Integer, ForeignKey("belts.id"), nullable=False)
-
-    # Временные метки
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now)
     updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now)
 
-    # Связи
     studio: Mapped["Studio"] = relationship("Studio", back_populates="students")
     belt: Mapped["Belt"] = relationship("Belt", back_populates="students")
     balance_logs: Mapped[List["BalanceLog"]] = relationship("BalanceLog", back_populates="student")

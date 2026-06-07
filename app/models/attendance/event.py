@@ -1,4 +1,4 @@
-from sqlalchemy import ForeignKey, Integer, String, DateTime, DECIMAL
+from sqlalchemy import ForeignKey, Integer, String, DateTime, DECIMAL, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from datetime import datetime
 from decimal import Decimal
@@ -13,13 +13,15 @@ if TYPE_CHECKING:
 
 class Event(Base):
     __tablename__ = "events"
+    __table_args__ = (UniqueConstraint("studio_id", "code", name="uq_events_studio_code"),)
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    code: Mapped[str] = mapped_column(String(50), nullable=False)
     type: Mapped[str] = mapped_column(String(50), nullable=False)
     price: Mapped[Decimal] = mapped_column(DECIMAL(10, 2), nullable=False)
     description: Mapped[Optional[str]] = mapped_column(String(500), nullable=True)
     studio_id: Mapped[int] = mapped_column(Integer, ForeignKey("studios.id"), nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now)
 
-    # Связи
     studio: Mapped["Studio"] = relationship("Studio", back_populates="events")
     attendance: Mapped[List["Attendance"]] = relationship("Attendance", back_populates="event")

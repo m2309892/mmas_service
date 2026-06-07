@@ -1,11 +1,11 @@
-from sqlalchemy import ForeignKey, Integer, String, DateTime, DECIMAL, Enum
+from sqlalchemy import ForeignKey, Integer, String, DateTime, DECIMAL
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from datetime import datetime
 from decimal import Decimal
 from typing import TYPE_CHECKING, Optional
 import enum
 
-from app.core.database import Base
+from app.core.database import Base, pg_enum
 
 if TYPE_CHECKING:
     from app.models.students.student import Student
@@ -25,9 +25,10 @@ class PayLog(Base):
     amount: Mapped[Decimal] = mapped_column(DECIMAL(10, 2), nullable=False)
     yookassa_id: Mapped[str] = mapped_column(String(255), nullable=False)
     student_id: Mapped[Optional[int]] = mapped_column(Integer, ForeignKey("students.id"), nullable=True)
-    status: Mapped[PaymentStatus] = mapped_column(Enum(PaymentStatus), nullable=False)
+    status: Mapped[PaymentStatus] = mapped_column(
+        pg_enum(PaymentStatus, "paymentstatus"), nullable=False
+    )
     user_email: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now)
 
-    # Связи
     student: Mapped[Optional["Student"]] = relationship("Student", back_populates="pay_logs")

@@ -13,7 +13,6 @@ class AppAccount(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     tg_id: Mapped[int] = mapped_column(Integer, ForeignKey("tg_users.id"), nullable=False)
-    mmas_id: Mapped[str] = mapped_column(String(255), nullable=False)  # Ссылка на students.mmas_id
+    mmas_id: Mapped[str] = mapped_column(String(255), nullable=False)
 
-    # Связи
     tg_user: Mapped["TgUser"] = relationship("TgUser", back_populates="app_accounts")
