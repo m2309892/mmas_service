@@ -1,0 +1,18 @@
+{
+  "age_years": 19,
+  "tenure_days": 420,
+  "balance": 500,
+  "visits_30d": 2,
+  "visits_60d": 5,
+  "visits_90d": 8,
+  "days_since_last_visit": 18,
+  "unpaid_count_90d": 1,
+  "paid_ratio_90d": 0.85,
+  "active_aboniment_days_left": 12,
+  "active_aboniment_hours_left": 4,
+  "purchases_90d": 1,
+  "avg_gap_days": 11.25,
+  "belt_sort_order": 3,
+  "studio_students_count": 90,
+  "is_child": 0
+}

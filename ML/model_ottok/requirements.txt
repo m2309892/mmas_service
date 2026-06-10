@@ -1,0 +1,7 @@
+# Prototype uses Python standard library only.
+#
+# Optional future stack:
+# pandas
+# scikit-learn
+# joblib
+# sqlalchemy[asyncio]
